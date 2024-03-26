@@ -1,0 +1,476 @@
+char webpage[] PROGMEM = R"=====(
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title> WebSockets Client</title>
+    <script src='http://code.jquery.com/jquery-1.9.1.min.js'></script>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    
+  </head>
+  <style> 
+          body 
+          {
+            text-align:center;
+            background-color:#ffffff;
+            color:Blue;
+            font-family: Arial, Helvetica, sans-serif;
+         }
+          input 
+          {
+            height:25px; 
+            width:270px;
+            font-size:20px;
+            margin: 10px auto;
+            border-radius:5px;
+          }
+      
+      table
+      {
+      -moz-border-radius:10px;
+      -webkit-border-radius:10px;
+      border-radius:10px
+  
+      }
+          #content 
+          {
+            border: red solid 10px; 
+            padding:5px;  
+            height:auto; 
+            width:auto; 
+            border-radius:20px;
+            margin: 0 auto;
+            color: blue;
+            background: #00ff99;
+          }         
+      .cssnhietdo
+      {
+        outline: none;
+        margin: 15px 5px;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        color:black;
+        font-size:20px;
+        font-weight: bold;
+        border: solid 5px #ffff66;
+        background: #66ffff;
+      }   
+      
+      .cssdoam{
+              outline: none;
+              margin: 15px 5px;
+              width: 80px;
+              height: 80px;
+              border-radius: 50%;
+              -moz-border-radius: 50%;
+              -webkit-border-radius: 50%;
+              color:black;
+              font-size:20px;
+              font-weight: bold;
+              border: solid 5px #ffff66;
+              background: #66ffff;
+          }
+      
+    
+      
+      .cssden
+      {
+          display: inline-block;
+          padding: 10px 25px;
+          font-size: 40px;
+          cursor: pointer;
+          text-align: center;
+          text-decoration: none;
+          outline: none;
+          color: back;
+          background-color: #ffff00;
+          border: none;
+          border-radius: 20px;
+          box-shadow: 0 9px #999;
+          height:70px; 
+          width:150px;
+          border: solid 5px red;
+       }
+      
+      .cssquat
+      {
+        display: inline-block;
+        padding: 10px 25px;
+        font-size: 40px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: back;
+        background-color: #ffff00;
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 9px #999;
+        height:70px; 
+        width:150px;
+        border: solid 5px red;
+       }   
+         
+          .button_quaylai{
+            height:30px; 
+            width:240px; 
+            margin:10px 0;
+            background-color:#3C89BC;
+            border-radius:15px;
+            outline:none;
+            color:white;
+            font-size:20px;
+            font-weight: bold;
+            border: solid 2px #ffff66;
+          }   
+      .button 
+      {
+        outline: none;
+        margin: 15px 5px;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        color:black;
+        font-size:20px;
+        font-weight: bold;
+        border: solid 5px #ffff66;
+        background: #f75810;
+      }
+
+      .button:hover {background-color: #33ff33}
+
+      .button:active {
+        background-color: #ff0000;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+      }
+      
+      tr
+      {
+        background-color:Orange;
+        color:white;
+        -moz-border-radius:10px;
+        -webkit-border-radius:10px;
+        border-radius:10px
+      }
+      th    
+      {
+       
+        -moz-border-radius:10px;
+        -webkit-border-radius:10px;
+        border-radius:10px
+        border: solid 5px Blue;
+      }
+      td    
+      {
+       
+        -moz-border-radius:10px;
+        -webkit-border-radius:10px;
+        border-radius:10px
+        border: solid 5px Blue;
+      }
+      .field-icon {
+        float: right;
+        margin-left: -25px;
+        margin-top: -25px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .container{
+        padding-top:50px;
+        margin: auto;
+      }
+      
+      
+      
+      
+       </style>
+  <script>  
+      var checkjson = false;
+      var host = 'ws://' + window.location.hostname + ':81/';
+      var socket = new WebSocket(host);
+      socket.binaryType = 'arraybuffer';
+      if(socket)
+      {
+        socket.onopen = function()
+        {
+          
+        }
+        socket.onmessage = function(msg)
+        {
+          // JSON , ảnh BIN
+      
+          IsJsonString(msg.data);
+          
+          if(checkjson)
+          {
+            var DataJson = JSON.parse(msg.data); 
+            if(DataJson.Client == "ESP")
+            {
+
+              console.log("TTGATE: " +DataJson.TTGATE);
+              console.log("TTLED: " +DataJson.TTLED);             
+
+              if(DataJson.TTGATE != null)
+              {
+          if(DataJson.TTGATE == 1)
+          {
+          document.getElementById("TTGATE").value = "ON";
+          document.getElementById("TTGATE").style.background = "#00ff00";  
+          }
+          else if(DataJson.TTGATE == 0)
+          {
+          document.getElementById("TTGATE").value = "OFF";
+          document.getElementById("TTGATE").style.background = "#ff0000";   
+          }
+              }
+              
+              
+              if(DataJson.TTLED != null)
+              {
+          if(DataJson.TTLED == 1)
+          {
+          document.getElementById("TTLED").value = "ON";
+          document.getElementById("TTLED").style.background = "#00ff00";     
+          }
+          else if(DataJson.TTLED == 0)
+          {
+          document.getElementById("TTLED").value = "OFF";
+          document.getElementById("TTLED").style.background = "#ff0000";  
+          }
+              }
+            }
+          }
+          else
+          {
+            var bytes = new Uint8Array(msg.data);   
+            var binary= '';
+            var len = bytes.byteLength;
+            for (var i = 0; i < len; i++) 
+            {
+              binary += String.fromCharCode(bytes[i]);
+            }
+        
+            var img = document.getElementById('live');
+            img.src = 'data:image/jpg;base64,'+window.btoa(binary);
+          }
+          
+        }
+        socket.onclose = function()
+        {
+          showServerResponse('The connection has been closed.');
+        }
+        
+      }
+      
+      function IsJsonString(str)
+      {
+        try
+        {
+          JSON.parse(str);
+        } 
+        catch (e)
+        {
+          checkjson = false;
+          return false;
+        }
+        checkjson = true;
+        return true;
+      }
+      
+      
+      
+      function GetButtonData(data)
+      {
+        switch (data)
+        {
+      
+            case 1:
+               
+              console.log("OnClick Button TTGATE"); 
+              
+              var TTGATE = document.getElementById("TTGATE").value;
+
+              
+              if(TTGATE == "ON")      
+              {
+                var tx = "{\"TTGATE\":\"0\"}";
+                if(socket)
+                {           
+                  socket.send(tx);
+                }
+                
+                
+              }
+              else if(TTGATE == "OFF")
+              {
+                var tx = "{\"TTGATE\":\"1\"}";
+                if(socket)
+                {           
+                  socket.send(tx);
+                }
+                
+              }
+              
+      console.log(tx);  
+
+              
+              break;
+            case 2:
+              console.log("OnClick Button TTLED"); 
+              
+              var TTLED = document.getElementById("TTLED").value;
+              
+              
+          
+              if(TTLED == "ON")      
+              {
+                var tx = "{\"TTLED\":\"0\"}";
+                if(socket)
+                {           
+                  socket.send(tx);
+                }
+                
+              }
+              else if(TTLED == "OFF")
+              {
+                  var tx = "{\"TTLED\":\"1\"}";
+
+                if(socket)
+                {           
+                  socket.send(tx);
+                }
+              }
+              
+              console.log(tx);  
+                  
+              break;
+        
+        case 3:
+          console.log("OnClick Button MESS"); 
+              
+          var x = document.getElementById("sendtext").value;
+          if(x != "")
+          {
+              var tx = "{\"MESS\":\""+x+"\"}";
+
+              if(socket)
+              {           
+                socket.send(tx);
+              }
+              document.getElementById("sendtext").value = "";
+               console.log(tx);
+          }
+          
+            
+
+                  
+              break;
+        }
+      }
+      
+      
+  </script>
+  
+  <body>
+
+  </br>
+  
+   <table width="1000" height="auto" border="2" cellpadding="7" align="center" style="overflow:auto">
+   
+                 <tr>
+                       
+             
+            
+              <td colspan="3" >   
+                <center> 
+                
+                
+                <b><font size="7"> <span style = "color: Blue">HỆ THỐNG CỬA THÔNG MINH</span></font></b>
+                </center>
+              </td>  
+              
+                     
+                 </tr>
+         
+         
+         <tr>
+                       
+             
+             <td colspan="1" > 
+              <center> 
+                <b><font size="5"> <span style = "color: Blue">CAMERA</span></font></b> 
+              </center> 
+             </td>  
+              <td colspan="2" >   
+                <center> 
+                    <img id='live' src="https://static.semrush.com/blog/uploads/media/20/b9/20b9fc4db7fe16be59032ff15883e98d/google-advertising.svg" width="500" height="200">
+                </center>
+              </td>  
+              
+                     
+                 </tr>
+         
+         
+       
+       
+  
+  
+         <tr> 
+         <td colspan="1" > <center> <font size="5"> <span style = "color: Blue"> <b> CỬA CỔNG </b> </span> </font></center> </td>  
+          <td colspan="1" >   
+           <input id="TTGATE" class="cssden"  type="button" value="OFF"/>
+  
+           </td> 
+         </td>  
+         
+         <td colspan="1" >   
+      
+           <button class="button" onclick = GetButtonData(1)>CỔNG </button>
+           </td> 
+         </td>
+        </tr>
+        
+        <tr> 
+         <td colspan="1" > <center> <font size="5"> <span style = "color: Blue"> <b> ĐÈN </b> </span> </font></center> </td>  
+          <td colspan="1" >   
+            <input id="TTLED" class="cssquat"  type="button" value="OFF"/>
+            
+          </td>  
+          
+        <td colspan="1" >   
+      
+           <button class="button" onclick = GetButtonData(2)>ĐÈN</button>
+          
+           </td> 
+         </td>
+        </tr>
+    
+     <tr> 
+         <td colspan="1" > <center> <font size="5"> <span style = "color: Blue"> <b> TIN NHẮN </b> </span> </font></center> </td>  
+          <td colspan="1" >   
+            <input id="sendtext">
+            
+          </td>  
+          
+        <td colspan="1" >   
+      
+           <button class="button" onclick = GetButtonData(3)>GỬI</button>
+          
+           </td> 
+         </td>
+        </tr>
+   
+         </table> 
+
+  
+  </body>
+</html>
+)=====";
